@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>给年轻女孩的9条人生建议 | 播客可视化</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg2: #0f0f18;
+  --bg3: #13131f;
+  --gold: #d4a017;
+  --gold-light: #f0c040;
+  --amber: #c07830;
+  --text: #e8e0d0;
+  --text-dim: #8a8070;
+  --text-muted: #5a5248;
+  --accent: #e8b830;
+  --danger: #c04040;
+  --radius: 12px;
+  --font: 'Hiragino Mincho ProN', 'Source Han Serif CN', 'Noto Serif CJK SC', Georgia, serif;
+  --sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.9;
+  overflow-x: hidden;
+}
+
+/* Progress bar */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  width: 0%;
+  z-index: 1000;
+  transition: width 0.1s ease;
+}
+
+/* Dot nav */
+#dot-nav {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dot-nav-item {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.dot-nav-item:hover, .dot-nav-item.active {
+  background: var(--gold);
+  transform: scale(1.5);
+}
+.dot-nav-item::before {
+  content: attr(data-label);
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.dot-nav-item:hover::before { opacity: 1; }
+
+/* Sections */
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 5vw;
+  position: relative;
+}
+
+/* Fade-in animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: transform, opacity;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); will-change: auto; }
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+.reveal-delay-4 { transition-delay: 0.6s; }
+
+/* ===== HERO ===== */
+#hero {
+  align-items: center;
+  text-align: center;
+  background: radial-gradient(ellipse at center, #1a1020 0%, var(--bg) 70%);
+  overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(212,160,23,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(192,120,48,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-ep {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.hero-title {
+  font-size: clamp(56px, 12vw, 120px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #f0d060, #d4a017, #c07830);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+.hero-subtitle {
+  font-family: var(--sans);
+  font-size: clamp(13px, 2vw, 17px);
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 56px;
+}
+.hero-quote {
+  max-width: 680px;
+  font-size: clamp(16px, 2.5vw, 22px);
+  color: var(--text);
+  line-height: 1.9;
+  position: relative;
+  padding: 32px 40px;
+  border-left: 3px solid var(--gold);
+  text-align: left;
+  background: rgba(212,160,23,0.04);
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.hero-quote:hover { background: rgba(212,160,23,0.08); }
+.hero-quote.highlighted { background: rgba(212,160,23,0.15); }
+.hero-quote::before {
+  content: '"';
+  position: absolute;
+  top: -10px; left: 20px;
+  font-size: 80px;
+  color: var(--gold);
+  opacity: 0.3;
+  line-height: 1;
+}
+.scroll-hint {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 2px;
+  animation: bounce 2s infinite;
+}
+.scroll-arrow {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* ===== SECTION COMMON ===== */
+.section-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+}
+.section-divider {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 24px 0 48px;
+}
+
+/* ===== PARTICIPANTS ===== */
+.author-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  max-width: 900px;
+}
+.author-card {
+  background: var(--bg3);
+  border: 1px solid rgba(212,160,23,0.15);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+.author-card h3 {
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  font-family: var(--sans);
+}
+.author-card p {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* ===== BIG QUOTE ===== */
+.big-quote {
+  font-size: clamp(20px, 3.5vw, 36px);
+  line-height: 1.8;
+  max-width: 800px;
+  position: relative;
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(212,160,23,0.06), rgba(192,120,48,0.02));
+  border-radius: var(--radius);
+  border: 1px solid rgba(212,160,23,0.12);
+  margin-bottom: 48px;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.big-quote:hover { border-color: rgba(212,160,23,0.3); background: rgba(212,160,23,0.08); }
+.big-quote.highlighted { border-color: var(--gold); background: rgba(212,160,23,0.12); }
+.highlight-text { color: var(--gold-light); font-style: italic; }
+
+/* ===== FEATURE CARDS ===== */
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 960px;
+  margin-top: 40px;
+}
+.feature-card {
+  background: var(--bg3);
+  border: 1px solid rgba(212,160,23,0.1);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.feature-card:hover {
+  border-color: rgba(212,160,23,0.35);
+  transform: translateY(-4px);
+}
+.feature-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+.feature-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-family: var(--sans);
+}
+.feature-desc {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ===== STORY CARDS ===== */
+.story-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+}
+.story-card {
+  background: var(--bg3);
+  border-radius: var(--radius);
+  padding: 28px;
+  border-left: 3px solid var(--amber);
+}
+.story-card .narrator {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.story-card p {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* ===== ACTION ITEMS ===== */
+.action-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 750px;
+  margin-bottom: 48px;
+}
+.action-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--bg3);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.action-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ===== MEGA QUOTE ===== */
+.mega-quote {
+  font-size: clamp(20px, 3.5vw, 36px);
+  line-height: 1.7;
+  max-width: 800px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 48px 0;
+  border-top: 1px solid rgba(212,160,23,0.2);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.mega-quote span { color: var(--gold); }
+.mega-quote:hover { color: var(--gold-light); }
+.mega-quote.highlighted span { color: var(--gold-light); }
+
+/* ===== QUIZ ===== */
+.quiz-container { max-width: 700px; width: 100%; }
+.quiz-intro {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+.quiz-question { margin-bottom: 32px; }
+.quiz-q-text {
+  font-size: 16px;
+  margin-bottom: 16px;
+  line-height: 1.7;
+  font-family: var(--sans);
+}
+.quiz-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.quiz-opt {
+  padding: 8px 18px;
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  user-select: none;
+}
+.quiz-opt:hover { border-color: var(--gold); color: var(--gold); }
+.quiz-opt.selected { background: var(--gold); border-color: var(--gold); color: var(--bg); font-weight: 600; }
+
+.quiz-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  background: linear-gradient(to right, #d4a017 0%, #d4a017 33%, #5a5248 33%, #5a5248 100%);
+  border-radius: 2px;
+  outline: none;
+}
+.quiz-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(212,160,23,0.2);
+}
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.quiz-btn {
+  margin-top: 32px;
+  padding: 14px 40px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.quiz-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,160,23,0.3); }
+
+.quiz-result {
+  display: none;
+  margin-top: 40px;
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(212,160,23,0.08), rgba(192,120,48,0.04));
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: var(--radius);
+}
+.quiz-result-level {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-family: var(--sans);
+}
+.quiz-result-desc {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.8;
+}
+
+/* ===== ENDING ===== */
+.book-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin-bottom: 64px;
+}
+.book-card {
+  background: var(--bg3);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid rgba(212,160,23,0.12);
+  transition: border-color 0.3s;
+}
+.book-card:hover { border-color: rgba(212,160,23,0.35); }
+.book-tag {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.book-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.book-author {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+.book-quote {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  border-left: 2px solid var(--amber);
+  padding-left: 12px;
+  font-style: italic;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.book-quote:hover { color: var(--text); }
+.book-quote.highlighted { color: var(--gold); }
+
+.podcast-card {
+  max-width: 600px;
+  background: linear-gradient(135deg, rgba(212,160,23,0.08), rgba(192,120,48,0.04));
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: var(--radius);
+  padding: 36px;
+  margin-bottom: 64px;
+  text-align: center;
+}
+.podcast-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.podcast-hosts {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.podcast-ep {
+  font-size: 16px;
+  color: var(--text);
+  font-style: italic;
+}
+
+.final-slogan {
+  font-size: clamp(32px, 7vw, 72px);
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--amber));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.3;
+  max-width: 700px;
+}
+
+/* ===== CLICKABLE QUOTES ===== */
+.clickable-quote {
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+.clickable-quote::after {
+  content: ' 点击收藏';
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.clickable-quote:hover::after { opacity: 1; }
+.clickable-quote.highlighted::after {
+  content: ' ✓ 已收藏';
+  color: var(--gold);
+  opacity: 1;
+}
+
+/* ===== SAVED QUOTES PANEL ===== */
+#saved-panel {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--bg3);
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: var(--radius);
+  padding: 20px;
+  max-width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 900;
+  display: none;
+  font-family: var(--sans);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+#saved-panel h4 { color: var(--gold); font-size: 13px; margin-bottom: 12px; letter-spacing: 2px; }
+.saved-quote-item { font-size: 12px; color: var(--text-dim); line-height: 1.7; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+#saved-toggle {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 901;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(212,160,23,0.4);
+  transition: transform 0.2s;
+}
+#saved-toggle:hover { transform: scale(1.1); }
+#saved-count {
+  position: absolute;
+  top: -4px; right: -4px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  section { padding: 60px 5vw; }
+  .feature-cards, .story-cards, .book-cards { grid-template-columns: 1fr; }
+  .author-grid { grid-template-columns: 1fr; }
+  #dot-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav id="dot-nav">
+  <div class="dot-nav-item active" data-section="hero" data-label="开场"></div>
+  <div class="dot-nav-item" data-section="participants" data-label="维亚"></div>
+  
+  <div class="dot-nav-item" data-section="intro" data-label="复利人生"></div>
+  
+  <div class="dot-nav-item" data-section="rejection-system" data-label="建立拒绝"></div>
+  
+  <div class="dot-nav-item" data-section="portfolio-life" data-label="把人生当"></div>
+  
+  <div class="dot-nav-item" data-section="fuck-you-money" data-label="一笔底气"></div>
+  
+  <div class="dot-nav-item" data-section="body-assets" data-label="身体里的"></div>
+  
+  <div class="dot-nav-item" data-section="advantage-combo" data-label="评估你的"></div>
+  
+  <div class="dot-nav-item" data-section="confidence-kit" data-label="自信急救"></div>
+  
+  <div class="dot-nav-item" data-section="anti-fragile" data-label="反脆弱周"></div>
+  
+  <div class="dot-nav-item" data-section="dream-big" data-label="Drea"></div>
+  
+  <div class="dot-nav-item" data-section="love-driven" data-label="被爱驱动"></div>
+  
+  <div class="dot-nav-item" data-section="recommendations" data-label="阅读推荐"></div>
+  
+  <div class="dot-nav-item" data-section="quiz" data-label="自测"></div>
+  <div class="dot-nav-item" data-section="ending" data-label="结尾"></div>
+</nav>
+
+<button id="saved-toggle" title="查看已收藏">★<span id="saved-count">0</span></button>
+<div id="saved-panel">
+  <h4>⭐ 我的金句收藏</h4>
+  <div id="saved-list"></div>
+</div>
+
+<!-- ===== 1. HERO ===== -->
+<section id="hero">
+  <div class="hero-ep reveal">EP.91 · 自习室 STUDY ROOM
+  </div>
+  <h1 class="hero-title reveal reveal-delay-1">给年轻女孩的9条人生建议</h1>
+  <p class="hero-subtitle reveal reveal-delay-2">
+    用复利模型，积累人生底气<br>
+    <span style="color:var(--text-muted);font-size:12px;">维亚 × 股心 · 自习室 STUDY ROOM
+    </span>
+  </p>
+  
+  <blockquote class="hero-quote reveal reveal-delay-3 clickable-quote" data-quote="战术上很勤奋，但是战略上很懒惰">
+    战术上很勤奋，但是战略上很懒惰
+  </blockquote>
+  
+  <div class="scroll-hint reveal reveal-delay-4">
+    <span>向下探索</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ===== 2. PARTICIPANTS ===== -->
+<section id="participants" style="background:var(--bg2);">
+  <div class="section-label reveal">节目嘉宾</div>
+  <h2 class="section-title reveal">维亚 × 股心
+  </h2>
+  <div class="section-divider reveal"></div>
+
+  <div class="author-grid reveal">
+    
+    <div class="author-card">
+      <h3>维亚</h3>
+      <p>铁三运动员、内容创作者、自媒体创业者，全能型妈妈</p>
+    </div>
+    
+    <div class="author-card">
+      <h3>股心</h3>
+      <p>创业者、投资圈人士，硅谷背景，深度阅读者和跑步爱好者</p>
+    </div>
+    
+    
+  </div>
+</section>
+
+<!-- ===== 3+. CONTENT SECTIONS ===== -->
+
+<section id="intro" style="background:var(--bg);">
+
+
+  
+  <div class="section-label reveal">把时间投入到长期回报最大的事上</div>
+  <h2 class="section-title reveal" style="font-size:clamp(28px,5vw,56px);">复利人生</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="hero-quote reveal reveal-delay-1 clickable-quote" style="margin-bottom:40px;" data-quote="战术上很勤奋，但是战略上很懒惰">
+    战术上很勤奋，但是战略上很懒惰
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal reveal-delay-2">
+    
+    <div class="action-item">
+      <div class="action-num">1</div>
+      <span>年轻时投入1分，10年后回报1万分的事情才值得做</span>
+    </div>
+    
+    <div class="action-item">
+      <div class="action-num">2</div>
+      <span>战术上很勤奋但战略上很懒惰，是最大的浪费</span>
+    </div>
+    
+    <div class="action-item">
+      <div class="action-num">3</div>
+      <span>用复利模型思考人生决策，找到真正的杠杆行为</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal reveal-delay-3" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>团队新成员千儿哥提出选题：年轻女孩想要的东西很多，但哪些事才是最重要的？焦虑让她停在原地思考而不行动。维亚决定从复利角度来解答这个问题。</p>
+      
+    </div>
+    
+  </div>
+  
+
+
+</section>
+
+<section id="rejection-system" style="background:var(--bg2);">
+
+
+  
+  <div class="section-label reveal">趁早建立被讨厌的勇气</div>
+  <h2 class="section-title reveal">建立拒绝系统</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="如果我可以回到20岁，我会告诉自己：我的专注力和时间很昂贵">
+    如果我可以回到20岁，我会告诉自己：我的专注力和时间很昂贵
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>好人缘的价值被高估了，花大量时间照顾别人情绪是低复利行为</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>高复利行为是从第一面开始就设立自己的边界</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>拒绝应该是默认选项：想象这件事发生在明天早上，你不会想去，那现在就不要答应</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-3">
+      <div class="action-num">4</div>
+      <span>温和而坚定地说不，省下的能量投入自己的成长</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>维亚邀请铁三教练来万宁，教练直接回复&#39;谢谢，我今年不去了，在上海训练&#39;。这个清脆的拒绝反而让维亚觉得被尊重，比其他人的委婉应付好得多。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="清脆地去拒绝别人，反而显得你跟这个人有更深的信任关系">
+    <span>清脆地去拒绝别人，反而显得你跟这个人有更深的信任关系</span>
+  </div>
+  
+
+
+</section>
+
+<section id="portfolio-life" style="background:var(--bg);">
+
+
+  
+  <div class="section-label reveal">公开你的才华，扩大运气表面积</div>
+  <h2 class="section-title reveal">把人生当作品集</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="公开自己的才华，是你变得越来越幸运的方法">
+    公开自己的才华，是你变得越来越幸运的方法
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>只有输入没有输出是低复利行为，一边思考一边公开发布才是高复利</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>数字资产24小时向全世界展示你的思考和能力</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>运气表面积理论：你的每一份公开作品都是撒向全世界的彩票</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-3">
+      <div class="action-num">4</div>
+      <span>单机模式 vs 联网模式：没有输出的努力，影响力随时归零</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-4">
+      <div class="action-num">5</div>
+      <span>展示真正的自己是互联网时代最好的呼朋唤友方式</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>维亚从小被妈妈教育&#39;不要嘚瑟&#39;，导致很多好内容不敢发。后来意识到这是&#39;囤积者思维&#39;而非&#39;流通者思维&#39;——珠宝藏在仓库里不会产生GDP，摆出来卖才能利滚利。</p>
+      
+    </div>
+    
+    <div class="story-card">
+      
+      <div class="narrator">guxin</div>
+      <p>播客主播刘飞说过：播客的商业化不好，但为什么还有这么多人做？因为它是一个内容丰富、非常立体的名片，需要向上reach的时候无需介绍自己。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="很多人怕在这个世界里留下痕迹，但这些痕迹是你最好的名片">
+    <span>很多人怕在这个世界里留下痕迹，但这些痕迹是你最好的名片</span>
+  </div>
+  
+
+
+</section>
+
+<section id="fuck-you-money" style="background:var(--bg2);">
+
+
+  
+  <div class="section-label reveal">人格独立的物理基础</div>
+  <h2 class="section-title reveal">一笔底气存款</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="没有这笔钱，拒绝、作品化、只做想做的事全都是空话">
+    没有这笔钱，拒绝、作品化、只做想做的事全都是空话
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>攒够6-12个月基本生活开销，不多不少</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>这笔钱不是财富，而是人格独立的物理基础</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>稀缺状态下认知带宽被占用，流体智商平均下降13-14分</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-3">
+      <div class="action-num">4</div>
+      <span>管窥效应：视野像通过管子看世界，变成井底之蛙</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-4">
+      <div class="action-num">5</div>
+      <span>手握这笔钱时，每一个人生决策的质量都会有质的飞跃</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>很多人失恋不搬出去，是因为觉得自己付不起房租；工作不好但不敢辞职，是因为没有缓冲。没有这笔钱，只能忍气吞声，进入更差的循环。有了它，你就有了买断自己自由的能力。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="这笔钱的复利不是银行利息，而是你做的每一个决策的质量提升">
+    <span>这笔钱的复利不是银行利息，而是你做的每一个决策的质量提升</span>
+  </div>
+  
+
+
+</section>
+
+<section id="body-assets" style="background:var(--bg);">
+
+
+  
+  <div class="section-label reveal">骨密度、肌肉和线粒体是你最宝贵的资产</div>
+  <h2 class="section-title reveal">身体里的银行</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="趁着年轻先把肌肉存够，你现在的每一滴汗水都是在抄底">
+    趁着年轻先把肌肉存够，你现在的每一滴汗水都是在抄底
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>骨量银行：0-30岁是唯一能疯狂存款的窗口期，30岁后只出不进</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>过度防晒和拒绝力量训练是年轻女生伤害骨密度的两大行为</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>肌肉是高通货膨胀资产：20岁练效率极高，40岁后投入十块钱回报一块钱</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-3">
+      <div class="action-num">4</div>
+      <span>线粒体是身体的热水器：缺乏能量不是吃的不够，而是能量转换出了问题</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-4">
+      <div class="action-num">5</div>
+      <span>二区有氧慢跑是发展线粒体最好的方式</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-4">
+      <div class="action-num">6</div>
+      <span>人跟人之间最大的差距不是智商，而是精力</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>维亚家万宁的热水器坏了，用它做比喻：很多时候觉得累不是因为吃的不够，而是&#39;热水器&#39;坏了——线粒体不能把能量转化成可用的形式，就像水管凉水呼呼出但没有热水。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="你的线粒体就是身体里的热水器，功率越大出的热水越多">
+    <span>你的线粒体就是身体里的热水器，功率越大出的热水越多</span>
+  </div>
+  
+
+
+</section>
+
+<section id="advantage-combo" style="background:var(--bg2);">
+
+
+  
+  <div class="section-label reveal">不追求全面优秀，而是找到你的乘数效应</div>
+  <h2 class="section-title reveal">评估你的优势组合</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="不需要去追求全面的优秀，而是去评估自己的优势组合">
+    不需要去追求全面的优秀，而是去评估自己的优势组合
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>不要追求全面的优秀，找到两三个优势并咬合在一起</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>单看任何一项你都能找到天才，但80分×80分×80分的乘数效应可以无限放大价值</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>回想从小到大别人觉得很努力但你觉得不费力的事，那就是你的天赋</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">guxin</div>
+      <p>股心从初中开始爸妈就吵不赢她，班主任叫她爸妈&#39;女儿奴&#39;。13年没见的老师见到她说&#39;当年吵架一次没赢过你&#39;，但转念又说&#39;现在你做播客，把表达能力、思辨能力物尽其用了&#39;。吵架能力+表达欲+深度阅读+社交能力，四者相乘就是她做播客的乘数效应。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="你单看任何一项都能找到天才，但三个80分相乘就是乘数效应">
+    <span>你单看任何一项都能找到天才，但三个80分相乘就是乘数效应</span>
+  </div>
+  
+
+
+</section>
+
+<section id="confidence-kit" style="background:var(--bg);">
+
+
+  
+  <div class="section-label reveal">面对崩溃时，立马能做的三件小事</div>
+  <h2 class="section-title reveal">自信急救包</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="我们要去看见自己的存在">
+    我们要去看见自己的存在
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>建立属于自己的自信急救包：小的、立马能做的、不费劲的事</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>面对小悲伤用三天，面对大悲伤用三十天，工具不变只是时间拉长</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>Show up（出现）本身就是最有力量的急救</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">guxin</div>
+      <p>股心的急救包：跑步十公里（不多不少）、与信任的朋友深度聊天（不是闲聊而是解剖自己）、读自己过去写下的文字。</p>
+      
+    </div>
+    
+    <div class="story-card">
+      
+      <div class="narrator">guxin</div>
+      <p>在全球最大女性技术大会上，Facebook COO Sheryl Sandberg 在意外失去丈夫后第一次公开演讲，说帮她走过来的两件事：每天写下三件感恩的事、以及show up——出现本身就是意义。</p>
+      
+    </div>
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>家人去世时特别难过，维亚的方法是：一天一天地过，给自己一个100天清单，每天睡前写下今天是怎么过去的。不用思考大方法，做100天就走过去了。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="面对小悲伤用三天，面对大悲伤不需要其他工具，还是这三个，你可能需要用三十天">
+    <span>面对小悲伤用三天，面对大悲伤不需要其他工具，还是这三个，你可能需要用三十天</span>
+  </div>
+  
+
+
+</section>
+
+<section id="anti-fragile" style="background:var(--bg2);">
+
+
+  
+  <div class="section-label reveal">高强度日与修复日，界限分明</div>
+  <h2 class="section-title reveal">反脆弱周结构</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="如果你每天都拼命，随时把自己绷得紧紧的，那你就随时随地都会断掉">
+    如果你每天都拼命，随时把自己绷得紧紧的，那你就随时随地都会断掉
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>每天都拼命随时会断掉，要设计明确的冲刺日和修复日</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>修复日要有更好的睡眠、降低运动强度、给自己兴趣方面的输入</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>不要所有东西都功利化思考，有些东西是让你做水的</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-3">
+      <div class="action-num">4</div>
+      <span>我们不仅仅是海浪，我们也是水——变化是形态转换而非消亡</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">guxin</div>
+      <p>Melinda Gates 在离婚后分享一个故事：大浪对小浪说&#39;完蛋了我们要消失了&#39;，小浪说&#39;别怕，因为我们不仅仅是海浪，我们也是水呀&#39;。这个故事提醒我们：巨大转变不是终结，而是形态变化。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="我们不仅仅是海浪，我们也是水">
+    <span>我们不仅仅是海浪，我们也是水</span>
+  </div>
+  
+
+
+</section>
+
+<section id="dream-big" style="background:var(--bg);">
+
+
+  
+  <div class="section-label reveal">勇敢去做大的、吓人的那种梦</div>
+  <h2 class="section-title reveal">Dream Big，中二一点</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="无论你认为自己做得到还是做不到，你都是对的">
+    无论你认为自己做得到还是做不到，你都是对的
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>如果有10年时光机，最想告诉20岁的自己：保持中二、保持热血</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>勇敢阐释你的梦想——用故事去阐释、向别人阐释、更向自己阐释</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>一个好的故事是梦想的保护壳</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-3">
+      <div class="action-num">4</div>
+      <span>取法其上得其中——射向月亮，再不济也会得到星星</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">guxin</div>
+      <p>股心11年后重回硅谷，每天高频接触创业者和投资人，听他们描绘愿景时找回了内心深处珍贵的东西——那种怀有梦想、为梦想不愿放弃的能量。</p>
+      
+    </div>
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>还是默默无闻在外企上班的小姑娘时，维亚告诉身边人要做自媒体、让所有人关注健康生活。所有人不是嘲笑，而是当没听见一样。但现在她成功让身边全是比她还中二、还热血、还敢说的人。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="取法其上得其中，一定要射向月亮，因为再不济你最后也会得到星星">
+    <span>取法其上得其中，一定要射向月亮，因为再不济你最后也会得到星星</span>
+  </div>
+  
+
+
+</section>
+
+<section id="love-driven" style="background:var(--bg2);">
+
+
+  
+  <div class="section-label reveal">给自己更多被爱驱动的机会</div>
+  <h2 class="section-title reveal">被爱驱动</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="一定要去爱着点什么，因为爱会让我们变得坚韧、宽容、充盈">
+    一定要去爱着点什么，因为爱会让我们变得坚韧、宽容、充盈
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>每一个选择问自己：是被爱驱动还是被恐惧驱动？</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>爱不是软肋，爱是一种主动的能力</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>多被爱驱动，就会压缩恐惧驱动的空间</span>
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="story-cards reveal" style="margin-top:40px;">
+    
+    <div class="story-card">
+      
+      <div class="narrator">via</div>
+      <p>维亚自从当妈后对爱的看法改变了——原来觉得爱是软肋、代表牺牲和被动，当妈后发现爱是一种非常主动的事情，是一种能力。现在能在任何小世界里找到爱它的理由。</p>
+      
+    </div>
+    
+  </div>
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="当你多被爱去驱动的时候，就会压缩用恐惧驱动的空间">
+    <span>当你多被爱去驱动的时候，就会压缩用恐惧驱动的空间</span>
+  </div>
+  
+
+
+</section>
+
+<section id="recommendations" style="background:var(--bg);">
+
+
+  
+  <div class="section-label reveal">进步是最性感的事</div>
+  <h2 class="section-title reveal">阅读推荐与结尾</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <blockquote class="big-quote reveal clickable-quote" data-quote="爱情不是我们人生唯一的尺度，允许爱情消失是一种自爱和成熟">
+    爱情不是我们人生唯一的尺度，允许爱情消失是一种自爱和成熟
+  </blockquote>
+  
+
+  
+  <div class="action-items reveal">
+    
+    <div class="action-item reveal">
+      <div class="action-num">1</div>
+      <span>股心推荐《允许爱情消失》：借14部文学经典拆解情感障碍</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-1">
+      <div class="action-num">2</div>
+      <span>维亚推荐《活出生命的意义》：连续好几年春节都重读一遍</span>
+    </div>
+    
+    <div class="action-item reveal reveal-delay-2">
+      <div class="action-num">3</div>
+      <span>下期预告：纳瓦尔宝典</span>
+    </div>
+    
+  </div>
+  
+
+  
+
+  
+  <div class="mega-quote reveal clickable-quote" data-quote="进步是最性感的事">
+    <span>进步是最性感的事</span>
+  </div>
+  
+
+
+</section>
+
+
+<!-- ===== QUIZ ===== -->
+<section id="quiz" style="background:var(--bg2);">
+  <div class="section-label reveal">互动自测</div>
+  <h2 class="section-title reveal">你的人生复利指数</h2>
+  <div class="section-divider reveal"></div>
+
+  <div class="quiz-container reveal">
+    <p class="quiz-intro">基于本期9条建议，测测你的人生复利模式处于什么水平？</p>
+
+    <div id="quiz-form">
+      
+      <div class="quiz-question">
+        <div class="quiz-q-text">1. 朋友提出一个不太想参加的聚会邀请，你的反应是？</div>
+        
+        <div class="quiz-options">
+          
+          <div class="quiz-opt" data-q="q1" data-v="0">温和但清脆地说&#39;谢谢但我就不去了&#39;</div>
+          
+          <div class="quiz-opt" data-q="q1" data-v="1">说&#39;我看看时间&#39;，之后再找理由婉拒</div>
+          
+          <div class="quiz-opt" data-q="q1" data-v="2">嘴上答应，心里想着到时候再说</div>
+          
+          <div class="quiz-opt" data-q="q1" data-v="3">不好意思拒绝，勉强去了</div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="quiz-question">
+        <div class="quiz-q-text">2. 你学到一个好东西（读后感/健身成果/新技能），你会？</div>
+        
+        <div class="quiz-options">
+          
+          <div class="quiz-opt" data-q="q2" data-v="0">整理后发到社交平台上分享</div>
+          
+          <div class="quiz-opt" data-q="q2" data-v="1">写在笔记里，偶尔和朋友聊到</div>
+          
+          <div class="quiz-opt" data-q="q2" data-v="2">心里知道就好，觉得发出来像嘚瑟</div>
+          
+          <div class="quiz-opt" data-q="q2" data-v="3">从来没想过要记录或分享</div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="quiz-question">
+        <div class="quiz-q-text">3. 你目前有没有一笔能覆盖6个月生活开销的存款？</div>
+        
+        <div class="quiz-options">
+          
+          <div class="quiz-opt" data-q="q3" data-v="0">有，而且心里很踏实</div>
+          
+          <div class="quiz-opt" data-q="q3" data-v="1">差不多有3-4个月的</div>
+          
+          <div class="quiz-opt" data-q="q3" data-v="2">月光但没有负债</div>
+          
+          <div class="quiz-opt" data-q="q3" data-v="3">还在还债/完全没有积蓄</div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="quiz-question">
+        <div class="quiz-q-text">4. 你每周做力量训练或有氧运动的频率？</div>
+        
+        <input type="range" class="quiz-slider" min="0" max="3" value="1" id="slider-q4">
+        <div class="slider-labels">
+          
+          <span>3次以上</span>
+          
+          <span>1-2次</span>
+          
+          <span>偶尔想起来</span>
+          
+          <span>基本不运动</span>
+          
+        </div>
+        
+      </div>
+      
+      <div class="quiz-question">
+        <div class="quiz-q-text">5. 当你感到迷茫或崩溃时，你有自己的&#39;急救方案&#39;吗？</div>
+        
+        <div class="quiz-options">
+          
+          <div class="quiz-opt" data-q="q5" data-v="0">有明确的急救清单，立刻执行</div>
+          
+          <div class="quiz-opt" data-q="q5" data-v="1">大概知道做什么能好一点</div>
+          
+          <div class="quiz-opt" data-q="q5" data-v="2">刷手机/吃东西来转移注意力</div>
+          
+          <div class="quiz-opt" data-q="q5" data-v="3">陷进去很久才能出来</div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="quiz-question">
+        <div class="quiz-q-text">6. 想到未来5年，你内心更多是什么感觉？</div>
+        
+        <div class="quiz-options">
+          
+          <div class="quiz-opt" data-q="q6" data-v="0">兴奋！有一个很大的梦想在牵引我</div>
+          
+          <div class="quiz-opt" data-q="q6" data-v="1">有方向感，在慢慢靠近</div>
+          
+          <div class="quiz-opt" data-q="q6" data-v="2">有点迷茫，但不至于焦虑</div>
+          
+          <div class="quiz-opt" data-q="q6" data-v="3">恐惧多于期待，不敢想太远</div>
+          
+        </div>
+        
+      </div>
+      
+
+      <button class="quiz-btn" id="quiz-submit">查看结果 →</button>
+    </div>
+
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-level" id="result-level"></div>
+      <div class="quiz-result-desc" id="result-desc"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ENDING ===== -->
+<section id="ending" style="background:var(--bg);">
+  <div class="section-label reveal">延伸阅读</div>
+  <h2 class="section-title reveal">推荐书单</h2>
+  <div class="section-divider reveal"></div>
+
+  
+  <div class="book-cards">
+    
+    <div class="book-card reveal">
+      <div class="book-tag">BOOK · guxin</div>
+      <div class="book-title">允许爱情消失</div>
+      <div class="book-author">杜素娟</div>
+      
+      <div class="book-quote clickable-quote" data-quote="借14部文学经典人物拆解情感障碍和人生困局，爱情不是我们人生唯一的尺度">借14部文学经典人物拆解情感障碍和人生困局，爱情不是我们人生唯一的尺度</div>
+      
+    </div>
+    
+    <div class="book-card reveal reveal-delay-1">
+      <div class="book-tag">BOOK · via</div>
+      <div class="book-title">活出生命的意义</div>
+      <div class="book-author">维克多·弗兰克尔</div>
+      
+      <div class="book-quote clickable-quote" data-quote="维亚连续好几年春节都重读一遍，每次都写不一样的感悟">维亚连续好几年春节都重读一遍，每次都写不一样的感悟</div>
+      
+    </div>
+    
+    <div class="book-card reveal reveal-delay-2">
+      <div class="book-tag">BOOK · via</div>
+      <div class="book-title">稀缺</div>
+      <div class="book-author">塞德希尔·穆来纳森</div>
+      
+      <div class="book-quote clickable-quote" data-quote="当大脑被生存焦虑填满时，认知带宽被严重占用，你会变笨也会变短视">当大脑被生存焦虑填满时，认知带宽被严重占用，你会变笨也会变短视</div>
+      
+    </div>
+    
+    <div class="book-card reveal reveal-delay-3">
+      <div class="book-tag">BOOK · guxin</div>
+      <div class="book-title">也许你该找个人聊聊</div>
+      <div class="book-author">洛莉·戈特利布</div>
+      
+      <div class="book-quote clickable-quote" data-quote="我们做的每一个选择，是被爱驱动还是被恐惧驱动？">我们做的每一个选择，是被爱驱动还是被恐惧驱动？</div>
+      
+    </div>
+    
+  </div>
+  
+
+  <div class="podcast-card reveal">
+    <div class="podcast-name">自习室 STUDY ROOM</div>
+    <div class="podcast-hosts">维亚 × 股心
+    </div>
+    <div class="podcast-ep">EP.91 · 给年轻女孩的9条人生建议
+    </div>
+  </div>
+
+  <div class="final-slogan reveal">
+    进步是最性感的事
+  </div>
+
+  
+  <div class="reveal" style="margin-top:64px;text-align:center;">
+    <blockquote class="big-quote clickable-quote"
+      data-quote="清脆地去拒绝别人，反而显得你有更深的信任关系"
+      style="text-align:left;max-width:600px;margin:0 auto;font-size:clamp(14px,2vw,18px);">
+      清脆地去拒绝别人，反而显得你有更深的信任关系
+    </blockquote>
+  </div>
+  
+
+  <div style="height:80px;"></div>
+</section>
+
+<script>
+// === Quiz 配置（由模板注入）===
+const QUIZ_CONFIG = {"required": ["q1", "q2", "q3", "q5", "q6"], "results": [{"desc": "\u4f60\u5df2\u7ecf\u5728\u7528\u590d\u5229\u6a21\u578b\u7ecf\u8425\u4eba\u751f\u4e86\uff01\u8fb9\u754c\u6e05\u6670\u3001\u6301\u7eed\u8f93\u51fa\u3001\u8eab\u4f53\u548c\u8d22\u52a1\u90fd\u6709\u5e95\u6c14\u3002\u4fdd\u6301\u4f4f\uff0c\u4f60\u7684\u8fd0\u6c14\u8868\u9762\u79ef\u6b63\u5728\u6307\u6570\u589e\u957f\u3002", "label": "\ud83c\udfc6 \u590d\u5229\u9ad8\u624b", "max": 0.8}, {"desc": "\u4f60\u6709\u610f\u8bc6\u4f46\u8fd8\u6709\u76f2\u533a\u3002\u5efa\u8bae\uff1a\u9009\u4e00\u4e2a\u6700\u8584\u5f31\u7684\u9886\u57df\uff08\u62d2\u7edd/\u8f93\u51fa/\u5b58\u6b3e/\u8fd0\u52a8\uff09\uff0c\u8fd9\u5468\u5c31\u5f00\u59cb\u884c\u52a8\u3002\u8bb0\u4f4f\uff0c20\u5c81\u7ec3\u7684\u808c\u8089\u6bd450\u5c81\u503c\u94b1\u5341\u500d\u3002", "label": "\u2728 \u89c9\u9192\u4e2d\u7684\u884c\u52a8\u8005", "max": 1.5}, {"desc": "\u4f60\u5f88\u52aa\u529b\u4f46\u53ef\u80fd\u5728\u7528\u4f4e\u590d\u5229\u7684\u65b9\u5f0f\u3002\u8bd5\u8bd5\uff1a\u672c\u5468\u628a\u4e00\u4e2a\u0027\u53ea\u6709\u81ea\u5df1\u77e5\u9053\u0027\u7684\u60f3\u6cd5\u516c\u5f00\u53d1\u51fa\u53bb\uff0c\u6512\u4e00\u7b14\u5c0f\u5c0f\u7684\u5e95\u6c14\u5b58\u6b3e\uff0c\u8bbe\u7acb\u4e00\u4e2a\u660e\u786e\u7684\u62d2\u7edd\u8fb9\u754c\u3002\u5c0f\u884c\u52a8\uff0c\u5927\u590d\u5229\u3002", "label": "\ud83d\ude05 \u6218\u672f\u52e4\u594b\u578b", "max": 2.2}, {"desc": "\u522b\u7126\u8651\uff01\u8fd9\u671f\u8282\u76ee\u5c31\u662f\u4f60\u7684\u8d77\u70b9\u3002\u4ece\u6700\u7b80\u5355\u7684\u5f00\u59cb\uff1a\u4eca\u5929\u5c31\u7b97\u4e00\u7b976\u4e2a\u6708\u7684\u751f\u6d3b\u5f00\u9500\u662f\u591a\u5c11\uff0c\u5199\u4e0b\u4f60\u7684\u4e00\u4e2a\u60f3\u6cd5\u53d1\u5230\u670b\u53cb\u5708\uff0c\u6216\u8005\u51fa\u95e8\u8dd130\u5206\u949f\u3002\u6bcf\u4e00\u6b65\u90fd\u5728\u6284\u5e95\u3002", "label": "\ud83d\udd25 \u590d\u5229\u5f85\u5f00\u53d1", "max": 99}], "sliders": ["q4"]};
+
+// === 进度条 ===
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrollTop / docHeight * 100) + '%';
+});
+
+// === Intersection Observer 滚动动画 ===
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => revealObs.observe(el));
+
+// === 点导航 ===
+const sections = document.querySelectorAll('section[id]');
+const dots = document.querySelectorAll('.dot-nav-item');
+
+const sectionObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      dots.forEach(d => d.classList.toggle('active', d.dataset.section === id));
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => sectionObs.observe(s));
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const target = document.getElementById(dot.dataset.section);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// === 金句收藏系统 ===
+const savedQuotes = [];
+const savedList = document.getElementById('saved-list');
+const savedToggle = document.getElementById('saved-toggle');
+const savedPanel = document.getElementById('saved-panel');
+const savedCount = document.getElementById('saved-count');
+let panelOpen = false;
+
+document.querySelectorAll('.clickable-quote').forEach(el => {
+  el.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const quote = this.dataset.quote || this.textContent.trim().slice(0, 60);
+    if (this.classList.contains('highlighted')) {
+      this.classList.remove('highlighted');
+      const idx = savedQuotes.indexOf(quote);
+      if (idx > -1) savedQuotes.splice(idx, 1);
+    } else {
+      this.classList.add('highlighted');
+      if (!savedQuotes.includes(quote)) savedQuotes.push(quote);
+    }
+    updateSavedPanel();
+  });
+});
+
+function updateSavedPanel() {
+  savedCount.textContent = savedQuotes.length;
+  savedList.innerHTML = savedQuotes.map(q => `<div class="saved-quote-item">${q}</div>`).join('');
+  if (savedQuotes.length > 0) {
+    savedToggle.style.display = 'flex';
+  } else {
+    savedToggle.style.display = 'none';
+    savedPanel.style.display = 'none';
+    panelOpen = false;
+  }
+}
+
+savedToggle.addEventListener('click', () => {
+  panelOpen = !panelOpen;
+  savedPanel.style.display = panelOpen ? 'block' : 'none';
+  if (panelOpen) { savedPanel.style.bottom = '80px'; savedPanel.style.right = '24px'; }
+});
+
+document.addEventListener('click', (e) => {
+  if (!savedPanel.contains(e.target) && e.target !== savedToggle) {
+    savedPanel.style.display = 'none';
+    panelOpen = false;
+  }
+});
+
+// === Quiz 逻辑 ===
+const quizAnswers = {};
+
+document.querySelectorAll('.quiz-opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    const q = this.dataset.q;
+    document.querySelectorAll(`[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+    quizAnswers[q] = parseInt(this.dataset.v);
+  });
+});
+
+document.getElementById('quiz-submit').addEventListener('click', () => {
+  const missing = QUIZ_CONFIG.required.filter(q => !Object.prototype.hasOwnProperty.call(quizAnswers, q));
+  if (missing.length > 0) {
+    const btn = document.getElementById('quiz-submit');
+    btn.textContent = '请先回答所有问题 ✗';
+    btn.style.background = '#c04040';
+    setTimeout(() => { btn.textContent = '查看结果 →'; btn.style.background = ''; }, 2000);
+    return;
+  }
+
+  // 收集 slider 值
+  QUIZ_CONFIG.sliders.forEach(id => {
+    const slider = document.getElementById('slider-' + id);
+    if (slider) quizAnswers[id] = parseInt(slider.value);
+  });
+
+  let total = 0, count = 0;
+  for (const v of Object.values(quizAnswers)) { total += v; count++; }
+  const avgScore = count > 0 ? total / count : 0;
+
+  // 匹配结果区间
+  const results = QUIZ_CONFIG.results;
+  let result = results[results.length - 1];
+  for (const r of results) {
+    if (avgScore <= r.max) { result = r; break; }
+  }
+
+  document.getElementById('result-level').textContent = result.label;
+  document.getElementById('result-desc').textContent = result.desc;
+  const resultEl = document.getElementById('quiz-result');
+  resultEl.style.display = 'block';
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// Slider 渐变色更新
+QUIZ_CONFIG.sliders.forEach(id => {
+  const slider = document.getElementById('slider-' + id);
+  if (slider) {
+    slider.addEventListener('input', function() {
+      const pct = (this.value / 3) * 100;
+      this.style.background = `linear-gradient(to right, #d4a017 0%, #d4a017 ${pct}%, #5a5248 ${pct}%, #5a5248 100%)`;
+    });
+  }
+});
+</script>
+</body>
+</html>
